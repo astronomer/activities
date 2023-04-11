@@ -25,3 +25,9 @@ jobs:
       - name: Run shell script
         run: |
           sh ./static/convert-readme-html.sh
+      
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'Update files'
+          commit_options: '--author="Faizan <faizan.qazi@astronomer.io>"'
