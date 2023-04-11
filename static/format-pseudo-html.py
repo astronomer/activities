@@ -1,5 +1,3 @@
-import markdown2
-
 # Read in the markdown file
 with open('temp.html', 'r') as file:
     markdown = file.read()
