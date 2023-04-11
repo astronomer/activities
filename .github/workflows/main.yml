@@ -1,0 +1,27 @@
+name: Merge to Main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - name: Create Container
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install marked
+        run: npm install -g marked
+      
+      - name: Run shell script
+        run: |
+          sh ./static/convert-readme-html.sh
