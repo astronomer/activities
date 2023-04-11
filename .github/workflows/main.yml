@@ -30,4 +30,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'Update files'
-          commit_options: '--author="faizan-qazi <faizan.qazi@astronomer.io>"'
