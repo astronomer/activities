@@ -32,7 +32,30 @@ hyphens: none;
 padding: 1em;
 margin: .5em 0;
 overflow: auto;
-background: #f5f2f0;"><code>PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
+background: #f5f2f0;"><code style="    -webkit-text-size-adjust: 100%;
+    font-style: normal;
+    cursor: default;
+    list-style-image: none;
+    list-style-type: none;
+    direction: ltr;
+    box-sizing: border-box;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 1em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+    border: none;">PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
 sudo rm -r $(pwd)/venv/lib/python$PYTHON_VERSION/site-packages/graphql_jwt -f
 cp modules/graphql_jwt $(pwd)/venv/lib/python$PYTHON_VERSION/site-packages/ -r
 </code></pre>
