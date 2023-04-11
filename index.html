@@ -7,13 +7,8 @@
   <link rel="stylesheet" href="./static/styles.css" />
 </head>
 <body>
-    <ul>
-      <li><a href="./static/index2.html">Item 1</a></li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-    </ul>
   <article>
-    <p><strong>This v2Project is a demonstration of Using GraphQL with Django for the Time Clocking of Users.
+    <p><strong>This Project is a demonstration of Using GraphQL with Django for the Time Clocking of Users.
 A User can Clock In/Out, check total clocked Hours in the current Day/Week/Month.
 All activites require a user to be authenticated using JWT.</strong></p>
 <h1 id="setup">Setup</h1>
@@ -55,7 +50,7 @@ python3 manage.py createsuperuser
 }
 </code></pre>
 <p>Copy the Activation Token as displayed on the terminal. This is to verify a User Account.</p>
-<p><img src="https://raw.githubusercontent.com/caxefaizan/timeclocking/main/images/VerifyToken.png" alt="alt text"></p>
+<p><img src="./images/VerifyToken.png" alt="alt text"></p>
 <h1 id="activate-account">Activate account</h1>
 <p>Use your previously copied <strong>Activation Token</strong> from <code> http://127.0.0.1:8000/activate/YOUR_TOKEN</code> in the Query</p>
 <pre><code class="language-py">mutation{
@@ -84,7 +79,7 @@ python3 manage.py createsuperuser
     &quot;TOKEN&quot;: &quot;YOUR_JWT_TOKEN&quot;
 }
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/caxefaizan/timeclocking/main/images/Insomnia.png" alt="alt text"></p>
+<p><img src="./images/Insomnia.png" alt="alt text"></p>
 <ul>
 <li>Create the following queries by setting body as <code>GraphQL Query</code></li>
 <li>In the Header, set <ul>
@@ -93,7 +88,7 @@ python3 manage.py createsuperuser
 </ul>
 </li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/caxefaizan/timeclocking/main/images/Queries.png" alt="alt text"></p>
+<p><img src="./images/Queries.png" alt="alt text"></p>
 <h1 id="me">Me</h1>
 <pre><code class="language-py">query{
   me{
@@ -135,11 +130,11 @@ python3 manage.py createsuperuser
   clockedHours
 }
 </code></pre>
-<p><img src="https://raw.githubusercontent.com/caxefaizan/timeclocking/main/images/ClockedHours.png" alt="alt text"></p>
+<p><img src="./images/ClockedHours.png" alt="alt text"></p>
 <h1 id="django-admin">Django Admin</h1>
 <p>You can also add Data for testing using the Django admin.
 Go to <code>http://127.0.0.1:8000/admin/</code> and login using your superuser credentials
-<img src="https://raw.githubusercontent.com/caxefaizan/timeclocking/main/images/Djangoadmin.png" alt="alt text"></p>
+<img src="./images/Djangoadmin.png" alt="alt text"></p>
 
   </article>
   <script src="./static/script.js"></script>
