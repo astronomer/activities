@@ -15,11 +15,45 @@ All activites require a user to be authenticated using JWT.</strong></p>
 <p>1a. Install Insomnia Client using <code>https://insomnia.rest/</code>
 We will use it to make queries to our GraphQL endpoint.</p>
 <p>1b. Open up a Terminal and follow the commands</p>
-<pre><code class="language-py">git clone https://github.com/caxefaizan/anymind.git
-cd anymind
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt 
+<pre><code class="language-py">from airflow import DAG
+from airflow.operators.python import PythonOperator
+import pendulum
+from airflow.models.taskinstance import TaskInstance as ti
+
+
+def _transform(ti: ti):
+    import requests
+    resp = requests.get(f&#39;https://swapi.dev/api/people/1&#39;).json()
+    print(resp)
+    my_character = {}
+    my_character[&quot;height&quot;] = int(resp[&quot;height&quot;]) - 20
+    my_character[&quot;mass&quot;] = int(resp[&quot;mass&quot;]) - 13
+    my_character[&quot;hair_color&quot;] = &quot;black&quot; if resp[&quot;hair_color&quot;] == &quot;blond&quot; else &quot;blond&quot;
+    my_character[&quot;eye_color&quot;] = &quot;hazel&quot; if resp[&quot;eye_color&quot;] == &quot;blue&quot; else &quot;blue&quot;
+    my_character[&quot;gender&quot;] = &quot;female&quot; if resp[&quot;gender&quot;] == &quot;male&quot; else &quot;female&quot;
+    ti.xcom_push(&quot;character_info&quot;, my_character)
+
+def _load(ti: ti):
+    print(ti.xcom_pull(key = &#39;character_info&#39;,task_ids = [&#39;_transform&#39;]))
+
+with DAG(
+    &#39;xcoms_demo_1&#39;,
+    schedule = None,
+    start_date = pendulum.datetime(2023,3,1),
+    catchup = False
+):
+    
+    t1 = PythonOperator(
+        task_id = &#39;_transform&#39;,
+        python_callable = _transform
+    )
+
+    t2 = PythonOperator(
+        task_id = &#39;load&#39;,
+        python_callable = _load
+    )
+
+    t1 &gt;&gt; t2
 </code></pre>
 <h1 id="make-django-4x-changes-for-jwt">Make Django 4.x changes for JWT</h1>
 <pre><code class="language-py">PYTHON_VERSION=&quot;$(python --version | cut -d &quot; &quot; -f 2 | cut -d &quot;.&quot; -f 1-2)&quot;
