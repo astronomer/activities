@@ -8,11 +8,45 @@ We will use it to make queries to our GraphQL endpoint.
 
 1b. Open up a Terminal and follow the commands
 ```
-git clone https://github.com/caxefaizan/anymind.git
-cd anymind
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt 
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+import pendulum
+from airflow.models.taskinstance import TaskInstance as ti
+
+
+def _transform(ti: ti):
+    import requests
+    resp = requests.get(f'https://swapi.dev/api/people/1').json()
+    print(resp)
+    my_character = {}
+    my_character["height"] = int(resp["height"]) - 20
+    my_character["mass"] = int(resp["mass"]) - 13
+    my_character["hair_color"] = "black" if resp["hair_color"] == "blond" else "blond"
+    my_character["eye_color"] = "hazel" if resp["eye_color"] == "blue" else "blue"
+    my_character["gender"] = "female" if resp["gender"] == "male" else "female"
+    ti.xcom_push("character_info", my_character)
+
+def _load(ti: ti):
+    print(ti.xcom_pull(key = 'character_info',task_ids = ['_transform']))
+
+with DAG(
+    'xcoms_demo_1',
+    schedule = None,
+    start_date = pendulum.datetime(2023,3,1),
+    catchup = False
+):
+    
+    t1 = PythonOperator(
+        task_id = '_transform',
+        python_callable = _transform
+    )
+
+    t2 = PythonOperator(
+        task_id = 'load',
+        python_callable = _load
+    )
+
+    t1 >> t2
 ```
 
 # Make Django 4.x changes for JWT 
