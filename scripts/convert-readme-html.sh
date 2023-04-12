@@ -14,7 +14,7 @@ do
   mv "temp/$file_name.html" "pages/$file_name.html"
   echo "Generating Styles"
   echo '================================================'
-  sed -i '' 's/<pre><code>/<pre><code class="language-py">/g' "pages/$file_name.html"
+  sed -i 's/<pre><code>/<pre><code class="language-py">/g' "pages/$file_name.html"
 done
 rm -rf temp
 python3 ./scripts/generate-list.py
