@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My GitHub README</title>
+  <link rel="stylesheet" href="./pages/static/styles.css" />
+</head>
+<body>
+  <article>
+    <p><strong>This Project is a demonstration of Using GraphQL with Django for the Time Clocking of Users.
+A User can Clock In/Out, check total clocked Hours in the current Day/Week/Month.
+All activites require a user to be authenticated using JWT.</strong></p>
+<h1 id="setup">Setup</h1>
+<p>1a. Install Insomnia Client using <code>https://insomnia.rest/</code>
+We will use it to make queries to our GraphQL endpoint.</p>
+<p>1b. Open up a Terminal and follow the commands</p>
+<pre><code class="language-py">git clone https://github.com/caxefaizan/anymind.git
+cd anymind
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt 
+</code></pre>
+<h1 id="make-django-4x-changes-for-jwt">Make Django 4.x changes for JWT</h1>
+<pre><code class="language-py">PYTHON_VERSION=&quot;$(python --version | cut -d &quot; &quot; -f 2 | cut -d &quot;.&quot; -f 1-2)&quot;
+sudo rm -r $(pwd)/venv/lib/python$PYTHON_VERSION/site-packages/graphql_jwt -f
+cp modules/graphql_jwt $(pwd)/venv/lib/python$PYTHON_VERSION/site-packages/ -r
+</code></pre>
+<h1 id="setup-database">Setup Database</h1>
+<pre><code class="language-py">python3 manage.py makemigrations timeclock
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py createsuperuser
+</code></pre>
+<h1 id="start-server">Start Server</h1>
+<pre><code class="language-py">python3 manage.py runserver
+</code></pre>
+<p>Access API at <code>http://127.0.0.1:8000/graphql/</code></p>
+<h1 id="create-account">Create Account</h1>
+<pre><code class="language-py">mutation{
+  createUser(
+    username: &quot;user123&quot;
+    email: &quot;user123@user.com&quot;
+    password1: &quot;!@#qwe!@#qwe&quot;
+    password2: &quot;!@#qwe!@#qwe&quot;
+  ){
+    success
+    errors
+  }
+}
+</code></pre>
+<p>Copy the Activation Token as displayed on the terminal. This is to verify a User Account.</p>
+<p><img src="../images/VerifyToken.png" alt="alt text"></p>
+<h1 id="activate-account">Activate account</h1>
+<p>Use your previously copied <strong>Activation Token</strong> from <code> http://127.0.0.1:8000/activate/YOUR_TOKEN</code> in the Query</p>
+<pre><code class="language-py">mutation{
+  verifyAccount(
+      token:&quot;YOUR_TOKEN&quot;
+  ){
+    success
+    errors
+  }
+}
+</code></pre>
+<h1 id="obtain-jwt-token">Obtain JWT Token</h1>
+<pre><code class="language-py">mutation{
+  obtainToken(username:&quot;user123&quot;,
+  password:&quot;!@#qwe!@#qwe&quot;){
+    token
+  }
+}
+</code></pre>
+<p>Copy the <strong>JWT Token</strong> in the Response. we will use it for the following query authentication.</p>
+<h1 id="use-insomnia-api-client-to-test-the-api">Use Insomnia API CLient to test the API</h1>
+<ul>
+<li>In your environment, add your token to use as variable <code>_.TOKEN</code> in the following queries</li>
+</ul>
+<pre><code class="language-py">{
+    &quot;TOKEN&quot;: &quot;YOUR_JWT_TOKEN&quot;
+}
+</code></pre>
+<p><img src="../images/Insomnia.png" alt="alt text"></p>
+<ul>
+<li>Create the following queries by setting body as <code>GraphQL Query</code></li>
+<li>In the Header, set <ul>
+<li><code>Content-Type</code>  : <code>application/json</code></li>
+<li><code>Authorization</code> : <code>JWT _.TOKEN</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="../images/Queries.png" alt="alt text"></p>
+<h1 id="me">Me</h1>
+<pre><code class="language-py">query{
+  me{
+    username
+    email
+  }
+}
+</code></pre>
+<h1 id="clockin">ClockIn</h1>
+<pre><code class="language-py">mutation{
+  clockIn{
+    clock{
+      clockedIn
+      clockedOut
+    }
+  }
+}
+</code></pre>
+<h1 id="currentclock">CurrentClock</h1>
+<pre><code class="language-py">query{
+  currentClock{
+    clockedIn
+    clockedOut
+  }
+}
+</code></pre>
+<h1 id="clockout">ClockOut</h1>
+<pre><code class="language-py">mutation{
+  clockOut{
+    clock{
+      clockedIn
+      clockedOut
+    }
+  }
+}
+</code></pre>
+<h1 id="clockedhours">ClockedHours</h1>
+<pre><code class="language-py">query{
+  clockedHours
+}
+</code></pre>
+<p><img src="../images/ClockedHours.png" alt="alt text"></p>
+<h1 id="django-admin">Django Admin</h1>
+<p>You can also add Data for testing using the Django admin.
+Go to <code>http://127.0.0.1:8000/admin/</code> and login using your superuser credentials
+<img src="../images/Djangoadmin.png" alt="alt text"></p>
+
+  </article>
+  <script src="./pages/static/script.js"></script>
+</body>
+</html>
