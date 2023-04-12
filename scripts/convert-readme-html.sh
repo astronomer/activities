@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 mkdir temp
-echo "Generating Pseudo HTML Code"
-echo '================================================'
-for file_path in ./docs/*
+for file_path in ./docs/*.md
 do
+  echo "Generating Pseudo HTML Code"
+  echo '================================================'
   echo "$file_path"
   file_name=$(echo "$file_path" | sed 's/^\.\/docs\///')
   marked -i "$file_path" -o "temp/$file_name.html"
