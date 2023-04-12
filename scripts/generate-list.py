@@ -14,7 +14,7 @@ file_names = os.listdir(folder_path)
 chapters = []
 for file_name in file_names:
     if file_name.endswith('.html'):
-        chapter_name = file_name.replace('.html', '').title()
+        chapter_name = file_name.replace('.html', '')
         chapters.append(chapter_name)
 
 # Update index.html using Jinja template
