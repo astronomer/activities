@@ -6,6 +6,9 @@
   <body>
     <h1>Academy</h1>
     <ul>
+      {% for chapter in chapters %}
+      <li><a href="./pages/{{ chapter }}.html">{{ chapter }}</a></li>
+      {% endfor %}
     </ul>
   </body>
 </html>
