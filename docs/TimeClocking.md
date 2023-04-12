@@ -58,7 +58,7 @@ mutation{
 
 Copy the Activation Token as displayed on the terminal. This is to verify a User Account.
 
-![alt text](./images/VerifyToken.png)
+![alt text](../images/VerifyToken.png)
 
 # Activate account 
 
@@ -98,14 +98,14 @@ Copy the **JWT Token** in the Response. we will use it for the following query a
 }
 ```
 
-![alt text](./images/Insomnia.png)
+![alt text](../images/Insomnia.png)
 * Create the following queries by setting body as `GraphQL Query`
 * In the Header, set 
     * `Content-Type`  : `application/json`
     * `Authorization` : `JWT _.TOKEN`
 
 
-![alt text](./images/Queries.png)
+![alt text](../images/Queries.png)
 
 # Me
 
@@ -163,10 +163,10 @@ query{
 }
 ```
 
-![alt text](./images/ClockedHours.png)
+![alt text](../images/ClockedHours.png)
 
 # Django Admin
 
 You can also add Data for testing using the Django admin.
 Go to `http://127.0.0.1:8000/admin/` and login using your superuser credentials
-![alt text](./images/Djangoadmin.png)
+![alt text](../images/Djangoadmin.png)
